@@ -159,7 +159,82 @@ def page_reporte(
     # df_ftl = pd.read_csv(archivo_ftl, sep=";")
     anomalias_t2 = cargar_csv_universal(archivo_anomalias)
 
-   
+
+
+
+
+    # st.markdown("""
+    # <style>
+
+    # div[data-testid="stHorizontalBlock"] {
+    #     align-items: stretch;
+    # }
+
+    # .kpi-card {
+    #     width: 100%;
+    #     box-sizing: border-box;
+
+    #     border: 2px solid;
+    #     border-radius: 10px;
+
+    #     padding: 12px;
+
+    #     display: flex;
+    #     flex-direction: column;
+
+    #     text-align: center;
+
+    #     height: 100%;
+    #     min-height: 0;
+
+    #     overflow: hidden;
+    # }
+
+    # .kpi-title {
+    #     font-size: 15px;
+    #     font-weight: 600;
+
+    #     line-height: 18px;
+
+    #     display: flex;
+    #     align-items: center;
+    #     justify-content: center;
+
+    #     overflow-wrap: anywhere;
+    #     word-break: normal;
+    # }
+
+    # .kpi-value {
+    #     font-size: 25px;
+    #     font-weight: 700;
+
+    #     line-height: 30px;
+
+    #     display: flex;
+    #     align-items: center;
+    #     justify-content: center;
+
+    #     flex: 1;
+    # }
+
+    # .kpi-sub {
+    #     font-size: 12px;
+    #     line-height: 15px;
+
+    #     margin-top: 5px;
+    # }
+
+    # </style>
+    # """, unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
     st.markdown("""
 <style>
 
@@ -173,6 +248,10 @@ def page_reporte(
     box-shadow:0 4px 14px rgba(0,0,0,0.35);
     transition:0.2s;
     margin: 20px 0;
+
+    /* ALTURA DINÁMICA */
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .kpi-card:hover{
@@ -228,7 +307,6 @@ div[data-testid="stDialog"] {
             
 
             
-            
 /* Botones KPI */
 div[data-testid="column"] button {
     height: 120px;
@@ -270,15 +348,162 @@ div[data-testid="column"] button br + span {
     font-weight: bold;
 }
             
-            button {
+button {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+/* =========================================================
+   ALTURA DINÁMICA DE LOS KPI
+   ========================================================= */
+
+/* Hace que las columnas de Streamlit tengan la misma altura */
+div[data-testid="stHorizontalBlock"] {
+    align-items: stretch;
+}
+
+/* Hace que el contenedor de cada columna ocupe toda la altura */
+div[data-testid="column"] {
+    display: flex;
+    align-items: stretch;
+}
+
+/* El KPI ocupa toda la altura disponible */
+div[data-testid="column"] > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* El contenido del KPI se estira */
+div[data-testid="column"] .kpi-card {
+    flex: 1;
+}
+
 </style>
 """, unsafe_allow_html=True)
+   
+#     st.markdown("""
+# <style>
+
+# .kpi-card{
+#     //background: linear-gradient(145deg,#111827,#1f2937);
+#     //background: linear-gradient(145deg,#31405E,#445069);
+#     border-radius:14px;
+#     padding:32px;
+#     text-align:center;
+#     border:2px solid;
+#     box-shadow:0 4px 14px rgba(0,0,0,0.35);
+#     transition:0.2s;
+#     margin: 20px 0;
+# }
+
+# .kpi-card:hover{
+#     /*background: red;*/
+#     transform:translateY(-4px);
+#     box-shadow:0 10px 22px rgba(0,0,0,0.45);
+# }
+
+# .kpi-title{
+#     font-size:24px;
+#     //color:#9ca3af;
+#     //color: white;
+#     margin-bottom:6px;
+#     font-weight: bold;
+# }
+
+# .kpi-value{
+#     font-size:54px;
+#     font-weight:700;
+# }
+
+# .kpi-sub{
+#     font-size:13px;
+#     //color:#9ca3af;
+#     color: black;
+#     margin-top:6px;
+# }
+            
+
+# /*div[data-testid="stButton"] button {
+#     background: transparent;
+#     border: none;
+#     height: 100%;
+# }*/
+
+# /* CONTENEDOR DEL MODAL */
+# div[data-testid="stDialog"] div[role="dialog"] {
+#     width: 90vw !important;
+#     max-width: 90vw !important;
+# }
+
+# /* CONTENIDO SCROLLEABLE */
+# div[data-testid="stDialog"] div[role="dialog"] > div {
+#     max-height: 85vh;
+#     overflow-y: auto;
+#     padding-right: 10px;
+# }
+
+# /* evita ese fondo raro abajo */
+# div[data-testid="stDialog"] {
+#     background: rgba(0,0,0,0.4);
+# }
+            
+
+            
+            
+# /* Botones KPI */
+# div[data-testid="column"] button {
+#     height: 120px;
+#     border-radius: 16px;
+#     border: 2px solid #ddd;
+#     background: white;
+#     font-size: 16px;
+#     font-weight: 500;
+#     white-space: pre-line; /* 👈 permite \n */
+#     transition: all 0.2s ease;
+
+# }
+
+# /* Hover */
+# div[data-testid="column"] button:hover {
+#     transform: translateY(-4px);
+#     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+# }
+
+# /* Colores específicos por columna */
+# div[data-testid="column"]:nth-of-type(1) button {
+#     border-color: #3b82f6;
+#     color: #3b82f6;
+# }
+
+# div[data-testid="column"]:nth-of-type(2) button {
+#     border-color: #22c55e;
+#     color: #22c55e;
+# }
+
+# div[data-testid="column"]:nth-of-type(3) button {
+#     border-color: #f59e0b;
+#     color: #f59e0b;
+# }
+
+# /* Tamaño del número (segunda línea) */
+# div[data-testid="column"] button br + span {
+#     font-size: 18px;
+#     font-weight: bold;
+# }
+            
+#             button {
+#     display: flex;
+#     flex-direction: column;
+#     justify-content: center;
+#     align-items: center;
+# }
+
+# </style>
+# """, unsafe_allow_html=True)
 
 
 
@@ -640,7 +865,37 @@ div[data-testid="column"] button br + span {
         # ---------------------------------------------------------
         lecturas_descargadas = final["prog_real"]
         lecturas_pendientes = final["dif"]
+
+        
+        # promedio = final["avg_proy"]
+    # ---------------------------------------------------------
+        # PROMEDIO
+        # ---------------------------------------------------------
+
+        # Por defecto, se utiliza el promedio proyectado
         promedio = final["avg_proy"]
+
+        # Detectar si nos excedimos
+        excedido = False
+
+        # Si prog = 0, significa que nos excedimos
+        if final["prog"] == 0:
+            excedido = True
+
+        # También controlar cantidad de días según tarifa
+        if "tarifa" in tabla.columns:
+
+            tarifa = str(tabla["tarifa"].iloc[0]).strip().upper()
+
+            if tarifa == "T1" and final["dias"] > 20:
+                excedido = True
+
+            elif tarifa == "T2" and final["dias"] > 10:
+                excedido = True
+
+        # Si nos excedimos, PROMEDIO pasa a ser DIF
+        if excedido:
+            promedio = final["dif"]
 
         # ---------------------------------------------------------
         # DEVOLVER LOS 6 VALORES
@@ -709,7 +964,7 @@ div[data-testid="column"] button br + span {
     with col1:
         kpi_visual(
             "ATRASO",
-            f"{resumen_t1['ATRASO']:.2f}%",
+            f"{resumen_t1['ATRASO']:.2f}",
             "#000000"
         )
     with col2:
@@ -763,7 +1018,7 @@ div[data-testid="column"] button br + span {
     with col8:
         kpi_visual(
              "ATRASO",
-                       f"{resumen_t2['ATRASO']:.2f}%",
+                       f"{resumen_t2['ATRASO']:.2f}",
                         "#000000"
         )
     with col9:
@@ -1039,7 +1294,191 @@ div[data-testid="column"] button br + span {
 
     
     #     return df_resumen
+    # def generar_resumen_anomalias(df):
+    #     resumen = {
+    #         "EDESTE": 0,
+    #         "Cooperativa Eléctrica": 0,
+    #         "Telemedición SMC": 0,
+    #         "Telemedición ESG": 0,
+    #         "OSL": 0,
+    #         "CONTRASTE": 0,
+    #         "CAR": 0,
+    #         "Sistemas": 0,
+    #         "Cambio de medidor no actualizado en OPEN": 0,
+    #         "Pendiente de analisis": 0
+    #     }
+
+    #     observaciones = {
+    #         "EDESTE": "NO DEBEMOS RESOLVERLAS",
+    #         "Cooperativa Eléctrica": "NO DEBEMOS RESOLVERLAS",
+    #         "Telemedición SMC": "Reclamado a T2 NORTE",
+    #         "Telemedición ESG": "Reclamado a T2 NORTE",
+    #         "OSL": "A la espera de resolución de orden",
+    #         "CONTRASTE": "A la espera de resolución de orden",
+    #         "CAR": "A la espera de resolución de orden",
+    #         "Sistemas": "A la espera de resolución de error / inconsistencia en OPEN",
+    #         "Cambio de medidor no actualizado en OPEN": "Reclamado a T2 Norte",
+    #         "Pendiente de analisis": "-"
+    #     }
+
+    #     # NIC ya procesados
+    #     nics_procesados = set()
+
+    #     for _, fila in df.iterrows():
+
+    #         # --------------------------------------------------
+    #         # NIC
+    #         # --------------------------------------------------
+
+    #         nic = str(fila.get("nic", "")).strip()
+
+    #         # Si el NIC está vacío, no lo consideramos
+    #         if not nic:
+    #             continue
+
+    #         # Si el NIC ya fue procesado, no volver a contarlo
+    #         if nic in nics_procesados:
+    #             continue
+
+    #         # Marcar NIC como procesado
+    #         nics_procesados.add(nic)
+
+    #         # --------------------------------------------------
+    #         # DATOS DEL REGISTRO
+    #         # --------------------------------------------------
+
+    #         cliente = str(fila.get("cliente", "")).strip().upper()
+
+    #         num_itin = str(fila.get("num_itin", "")).strip()
+
+    #         personal = str(fila.get("personal", "")).strip()
+
+    #         # Evitar problemas con 8990.0
+    #         if num_itin.endswith(".0"):
+    #             num_itin = num_itin[:-2]
+
+    #         osl_trat = str(fila.get("osl_trat", "")).strip()
+    #         osl_pend = str(fila.get("osl_pend", "")).strip()
+    #         osl = osl_trat or osl_pend
+
+    #         contraste_trat = str(fila.get("contraste_trat", "")).strip()
+    #         contraste_pend = str(fila.get("contraste_pend", "")).strip()
+
+    #         contraste = contraste_trat or contraste_pend
+    #         # contraste = str(fila.get("contraste_trat", "")).strip()
+
+    #         car_trat = str(fila.get("car_trat", "")).strip()
+    #         car_pend = str(fila.get("car_pend", "")).strip()
+    #         car = car_trat or car_pend
+
+    #         # estado_contrato = str(fila.get("desc_est", "")).strip()
+    #         estado = str(fila.get("desc_est", "")).strip().upper()
+
+    #         estado = ''.join(
+    #             c for c in unicodedata.normalize('NFD', estado)
+    #             if unicodedata.category(c) != 'Mn'
+    #         )
+
+    #         anom_lect = str(
+    #             fila.get("anom_lect", "")
+    #         ).strip().lower()
+
+    #         # --------------------------------------------------
+    #         # PRIORIDAD 1 - EDESTE
+    #         # --------------------------------------------------
+
+    #         if "EDESTE" in cliente:
+
+    #             resumen["EDESTE"] += 1
+
+    #         # --------------------------------------------------
+    #         # PRIORIDAD 2 - COOPERATIVA ELÉCTRICA
+    #         # --------------------------------------------------
+
+    #         elif "COOPERATIVA ELECTRICA" in str(cliente).strip().upper():
+
+    #             resumen["Cooperativa Eléctrica"] += 1
+            
+    #          # --------------------------------------------------
+    #         # PRIORIDAD 3 - TELEMEDICIÓN SMC
+    #         # --------------------------------------------------
+
+    #         elif num_itin in ["8993", "8994", "8995", "8997", "8999"]:
+
+    #             resumen["Telemedición SMC"] += 1
+
+    #         # --------------------------------------------------
+    #         # PRIORIDAD 3 - TELEMEDICIÓN ESG
+    #         # --------------------------------------------------
+
+    #         elif "MT EDEMSA" in str(personal).strip().upper():
+    #              resumen["Telemedición ESG"] += 1
+
+    #         # elif "correcta" not in str(estado_contrato).strip().upper():
+    #         #      resumen["Sistemas"] += 1
+
+    #         elif "SITUACION CORRECTA" not in estado:
+    #             resumen["Sistemas"] += 1
+
+            
+    #         elif "num.med. no coincide" in anom_lect:
+
+    #             resumen["Cambio de medidor no actualizado en OPEN"] += 1
+
+    #         # --------------------------------------------------
+    #         # PRIORIDAD 4 - OSL
+    #         # --------------------------------------------------
+
+    #         elif osl:
+
+    #             resumen["OSL"] += 1
+
+
+    #         elif contraste:
+
+    #             resumen["CONTRASTE"] += 1
+
+    #         # --------------------------------------------------
+    #         # PRIORIDAD 5 - CAR
+    #         # --------------------------------------------------
+
+    #         elif car:
+
+    #             resumen["CAR"] += 1
+
+    #         # --------------------------------------------------
+    #         # PRIORIDAD 6 - CAMBIO DE MEDIDOR
+    #         # --------------------------------------------------
+
+          
+
+    #         # --------------------------------------------------
+    #         # PRIORIDAD 7 - PENDIENTE DE ANÁLISIS
+    #         # --------------------------------------------------
+
+    #         else:
+
+    #             resumen["Pendiente de analisis"] += 1
+
+    #     # --------------------------------------------------
+    #     # CREAR TABLA RESUMEN
+    #     # --------------------------------------------------
+
+    #     df_resumen = pd.DataFrame([
+    #         {
+    #             "Casos": cantidad,
+    #             "Identificación": categoria,
+    #             "Observación": observaciones[categoria]
+    #         }
+    #         for categoria, cantidad in resumen.items()
+    #         if cantidad > 0
+    #     ])
+
+    #     return df_resumen
+
+
     def generar_resumen_anomalias(df):
+
         resumen = {
             "EDESTE": 0,
             "Cooperativa Eléctrica": 0,
@@ -1050,6 +1489,7 @@ div[data-testid="column"] button br + span {
             "CAR": 0,
             "Sistemas": 0,
             "Cambio de medidor no actualizado en OPEN": 0,
+            "TROLE": 0,
             "Pendiente de analisis": 0
         }
 
@@ -1063,151 +1503,296 @@ div[data-testid="column"] button br + span {
             "CAR": "A la espera de resolución de orden",
             "Sistemas": "A la espera de resolución de error / inconsistencia en OPEN",
             "Cambio de medidor no actualizado en OPEN": "Reclamado a T2 Norte",
+            "TROLE": "NO DEBEMOS RESOLVERLAS",
             "Pendiente de analisis": "-"
         }
 
-        # NIC ya procesados
-        nics_procesados = set()
+        # =========================================================
+        # NORMALIZAR NIC
+        # =========================================================
 
-        for _, fila in df.iterrows():
+        df = df.copy()
 
-            # --------------------------------------------------
-            # NIC
-            # --------------------------------------------------
+        df["nic"] = df["nic"].fillna("").astype(str).str.strip()
 
-            nic = str(fila.get("nic", "")).strip()
+        # Eliminar NIC vacíos
+        df = df[df["nic"] != ""]
 
-            # Si el NIC está vacío, no lo consideramos
-            if not nic:
-                continue
+        # =========================================================
+        # PROCESAR CADA NIC UNA SOLA VEZ
+        # =========================================================
 
-            # Si el NIC ya fue procesado, no volver a contarlo
-            if nic in nics_procesados:
-                continue
+        for nic, grupo in df.groupby("nic", sort=False):
 
-            # Marcar NIC como procesado
-            nics_procesados.add(nic)
+            # -----------------------------------------------------
+            # CLIENTE
+            # -----------------------------------------------------
 
-            # --------------------------------------------------
-            # DATOS DEL REGISTRO
-            # --------------------------------------------------
-
-            cliente = str(fila.get("cliente", "")).strip().upper()
-
-            num_itin = str(fila.get("num_itin", "")).strip()
-
-            personal = str(fila.get("personal", "")).strip()
-
-            # Evitar problemas con 8990.0
-            if num_itin.endswith(".0"):
-                num_itin = num_itin[:-2]
-
-            osl_trat = str(fila.get("osl_trat", "")).strip()
-            osl_pend = str(fila.get("osl_pend", "")).strip()
-            osl = osl_trat or osl_pend
-
-            contraste_trat = str(fila.get("contraste_trat", "")).strip()
-            contraste_pend = str(fila.get("contraste_pend", "")).strip()
-
-            contraste = contraste_trat or contraste_pend
-            # contraste = str(fila.get("contraste_trat", "")).strip()
-
-            car_trat = str(fila.get("car_trat", "")).strip()
-            car_pend = str(fila.get("car_pend", "")).strip()
-            car = car_trat or car_pend
-
-            # estado_contrato = str(fila.get("desc_est", "")).strip()
-            estado = str(fila.get("desc_est", "")).strip().upper()
-
-            estado = ''.join(
-                c for c in unicodedata.normalize('NFD', estado)
-                if unicodedata.category(c) != 'Mn'
+            cliente = (
+                grupo["cliente"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+                .str.upper()
             )
 
-            anom_lect = str(
-                fila.get("anom_lect", "")
-            ).strip().lower()
+            trole = (
+                            grupo["co_marca"]
+                            .fillna("")
+                            .astype(str)
+                            .str.strip()
+                            .str.upper()
+                        )
 
-            # --------------------------------------------------
+            # -----------------------------------------------------
+            # ITINERARIO
+            # -----------------------------------------------------
+
+            num_itin = (
+                grupo["num_itin"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+                .str.replace(r"\.0$", "", regex=True)
+            )
+
+            # -----------------------------------------------------
+            # PERSONAL
+            # -----------------------------------------------------
+
+            personal = (
+                grupo["personal"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+                .str.upper()
+            )
+
+            # -----------------------------------------------------
+            # ANOMALÍA DE LECTURA
+            # -----------------------------------------------------
+
+            anom_lect = (
+                grupo["anom_lect"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+                .str.lower()
+            )
+
+            # -----------------------------------------------------
+            # ESTADO
+            # -----------------------------------------------------
+
+            estado = (
+                grupo["desc_est"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+                .str.upper()
+            )
+
+            estado = estado.apply(
+                lambda x: ''.join(
+                    c
+                    for c in unicodedata.normalize("NFD", x)
+                    if unicodedata.category(c) != "Mn"
+                )
+            )
+
+            # -----------------------------------------------------
+            # OSL
+            # -----------------------------------------------------
+
+            osl_trat = (
+                grupo["osl_trat"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+            )
+
+            osl_pend = (
+                grupo["osl_pend"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+            )
+
+            tiene_osl = (
+                (osl_trat != "").any()
+                or
+                (osl_pend != "").any()
+            )
+
+            # -----------------------------------------------------
+            # CONTRASTE
+            # -----------------------------------------------------
+
+            contraste_trat = (
+                grupo["contraste_trat"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+            )
+
+            contraste_pend = (
+                grupo["contraste_pend"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+            )
+
+            tiene_contraste = (
+                (contraste_trat != "").any()
+                or
+                (contraste_pend != "").any()
+            )
+
+            # -----------------------------------------------------
+            # CAR
+            # -----------------------------------------------------
+
+            car_trat = (
+                grupo["car_trat"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+            )
+
+            car_pend = (
+                grupo["car_pend"]
+                .fillna("")
+                .astype(str)
+                .str.strip()
+            )
+
+            tiene_car = (
+                (car_trat != "").any()
+                or
+                (car_pend != "").any()
+            )
+
+            # =====================================================
+            # PRIORIDADES
+            # =====================================================
+
+            # -----------------------------------------------------
             # PRIORIDAD 1 - EDESTE
-            # --------------------------------------------------
+            # -----------------------------------------------------
 
-            if "EDESTE" in cliente:
+            if cliente.str.contains(
+                "EDESTE",
+                na=False
+            ).any():
 
                 resumen["EDESTE"] += 1
 
-            # --------------------------------------------------
-            # PRIORIDAD 2 - COOPERATIVA ELÉCTRICA
-            # --------------------------------------------------
+ # -----------------------------------------------------
+            # PRIORIDAD 3 - COOPERATIVA ELÉCTRICA
+            # -----------------------------------------------------
 
-            elif "COOPERATIVA ELECTRICA" in str(cliente).strip().upper():
+            elif cliente.str.contains(
+                "COOPERATIVA ELECTRICA",
+                na=False
+            ).any():
 
-                resumen["Cooperativa Eléctrica"] += 1
-            
-             # --------------------------------------------------
-            # PRIORIDAD 3 - TELEMEDICIÓN SMC
-            # --------------------------------------------------
+                resumen["Cooperativa Eléctrica"] += 1            
 
-            elif num_itin in ["8993", "8994", "8995", "8997", "8999"]:
+
+            elif trole.isin([
+                        "MC799"
+                        ]).any():
+                            resumen["TROLE"] += 1
+            # -----------------------------------------------------
+            # PRIORIDAD 2 - TELEMEDICIÓN SMC
+            # -----------------------------------------------------
+
+            elif num_itin.isin([
+                "8993",
+                "8994",
+                "8995",
+                "8997",
+                "8999"
+            ]).any():
 
                 resumen["Telemedición SMC"] += 1
 
-            # --------------------------------------------------
-            # PRIORIDAD 3 - TELEMEDICIÓN ESG
-            # --------------------------------------------------
+           
 
-            elif "MT EDEMSA" in str(personal).strip().upper():
-                 resumen["Telemedición ESG"] += 1
+            # -----------------------------------------------------
+            # PRIORIDAD 4 - TELEMEDICIÓN ESG
+            # -----------------------------------------------------
 
-            # elif "correcta" not in str(estado_contrato).strip().upper():
-            #      resumen["Sistemas"] += 1
+            elif personal.str.contains(
+                "MT EDEMSA",
+                na=False
+            ).any():
 
-            elif "SITUACION CORRECTA" not in estado:
+                resumen["Telemedición ESG"] += 1
+
+            # -----------------------------------------------------
+            # PRIORIDAD 5 - SISTEMAS
+            # -----------------------------------------------------
+
+            elif (
+                ~estado.str.contains(
+                    "SITUACION CORRECTA",
+                    na=False
+                )
+            ).any():
+
                 resumen["Sistemas"] += 1
 
-            
-            elif "num.med. no coincide" in anom_lect:
+            # -----------------------------------------------------
+            # PRIORIDAD 6 - CAMBIO DE MEDIDOR
+            # -----------------------------------------------------
 
-                resumen["Cambio de medidor no actualizado en OPEN"] += 1
+            elif anom_lect.str.contains(
+                "num.med. no coincide",
+                na=False
+            ).any():
 
-            # --------------------------------------------------
-            # PRIORIDAD 4 - OSL
-            # --------------------------------------------------
+                resumen[
+                    "Cambio de medidor no actualizado en OPEN"
+                ] += 1
 
-            elif osl:
+            # -----------------------------------------------------
+            # PRIORIDAD 7 - OSL
+            # -----------------------------------------------------
+
+            elif tiene_osl:
 
                 resumen["OSL"] += 1
 
+            # -----------------------------------------------------
+            # PRIORIDAD 8 - CONTRASTE
+            # -----------------------------------------------------
 
-            elif contraste:
+            elif tiene_contraste:
 
                 resumen["CONTRASTE"] += 1
 
-            # --------------------------------------------------
-            # PRIORIDAD 5 - CAR
-            # --------------------------------------------------
+            # -----------------------------------------------------
+            # PRIORIDAD 9 - CAR
+            # -----------------------------------------------------
 
-            elif car:
+            elif tiene_car:
 
                 resumen["CAR"] += 1
 
-            # --------------------------------------------------
-            # PRIORIDAD 6 - CAMBIO DE MEDIDOR
-            # --------------------------------------------------
 
-          
-
-            # --------------------------------------------------
-            # PRIORIDAD 7 - PENDIENTE DE ANÁLISIS
-            # --------------------------------------------------
+           
+            # -----------------------------------------------------
+            # PRIORIDAD 10 - PENDIENTE DE ANÁLISIS
+            # -----------------------------------------------------
 
             else:
 
                 resumen["Pendiente de analisis"] += 1
 
-        # --------------------------------------------------
+        # =========================================================
         # CREAR TABLA RESUMEN
-        # --------------------------------------------------
+        # =========================================================
 
         df_resumen = pd.DataFrame([
             {
@@ -1220,8 +1805,6 @@ div[data-testid="column"] button br + span {
         ])
 
         return df_resumen
-
-
 
     st.subheader("Anomalías T2")
 

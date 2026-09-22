@@ -111,6 +111,120 @@ def graf_ev_lect(
         titulo_col_leidos="Lecturas realizadas",
         mostrar_val=False
     ):
+
+    # ============================================================
+    # AGRUPAR POR FECHA COMPLETA
+    # ============================================================
+
+    df_evol = df.groupby(
+        df["f_lteor"].dt.date
+    ).agg({
+        "total_programados": "sum",
+        col_leidos: "sum"
+    }).reset_index()
+
+    df_evol = df_evol.rename(columns={
+        "f_lteor": "fecha"
+    })
+
+
+    # ============================================================
+    # ASEGURAR FECHA COMPLETA
+    # ============================================================
+
+    df_evol["fecha"] = pd.to_datetime(df_evol["fecha"])
+
+    # Etiqueta que se va a mostrar en el eje X
+    df_evol["dia"] = df_evol["fecha"].dt.strftime("%d")
+
+
+    # ============================================================
+    # DATOS PARA EL GRÁFICO
+    # ============================================================
+
+    df_graf = df_evol.rename(columns={
+        "total_programados": "Lecturas programadas",
+        col_leidos: titulo_col_leidos
+    })
+
+
+    # ============================================================
+    # GRÁFICO
+    # ============================================================
+
+    fig = px.line(
+        df_graf,
+        x="fecha",
+        y=[
+            "Lecturas programadas",
+            titulo_col_leidos
+        ],
+        labels={
+            "fecha": "Día de lectura",
+            "value": "Cantidad de lecturas",
+            "variable": "Tipo"
+        },
+        markers=True,
+        title=titulo,
+        color_discrete_sequence=[
+            "#ff0a0a",
+            "#1322ff",
+        ]
+    )
+
+
+    # ============================================================
+    # MOSTRAR SOLO EL DÍA EN EL EJE X
+    # PERO MANTENER LA FECHA COMPLETA INTERNAMENTE
+    # ============================================================
+
+    fig.update_xaxes(
+        type="category",
+        tickmode="array",
+        tickvals=df_graf["fecha"],
+        ticktext=df_graf["dia"]
+    )
+
+
+    fig.update_layout(
+        yaxis=dict(
+            tickformat=","
+        )
+    )
+
+
+    # ============================================================
+    # MOSTRAR VALORES
+    # ============================================================
+
+    if mostrar_val:
+
+        for trace in fig.data:
+
+            trace.text = trace.y
+
+            trace.texttemplate = '%{text:,.0f}'
+
+            trace.textposition = 'top center'
+
+            trace.mode = 'lines+markers+text'
+
+
+    st.plotly_chart(
+        fig,
+        use_container_width=True,
+        key=key
+    )
+
+
+def graf_ev_lect2(
+        df,
+        col_leidos,
+        titulo="Evolución diaria de lecturas",
+        key="grafico",
+        titulo_col_leidos="Lecturas realizadas",
+        mostrar_val=False
+    ):
     df_evol = df.groupby(df["f_lteor"].dt.date).agg({
         "total_programados":"sum",
         col_leidos:"sum"

@@ -520,6 +520,50 @@ div[data-testid="column"] .kpi-card {
         # ============================================================
 
         # Buscar el primer registro donde TOTAL_LEIDOS_ACTUAL == 0
+        # filas_cero = tabla[tabla["total_leidos_actual"] == 0]
+
+        # if not filas_cero.empty:
+
+        #     # Posición del primer 0
+        #     indice_cero = filas_cero.index[0]
+
+        #     if indice_cero > 0:
+        #         # Promedio de reglamentarios desde el primer registro
+        #         # hasta el registro anterior al primer TOTAL_LEIDOS_ACTUAL = 0
+        #         promedio_reglamentarios = (
+        #             pd.to_numeric(
+        #                 tabla.loc[:indice_cero - 1, "reglamentarios"],
+        #                 errors="coerce"
+        #             )
+        #             .mean()
+        #         )
+
+        #     else:
+        #         # El primer registro ya tiene TOTAL_LEIDOS_ACTUAL = 0
+        #         promedio_reglamentarios = None
+
+        # else:
+
+        #     # Si nunca aparece TOTAL_LEIDOS_ACTUAL = 0,
+        #     # promedio de todos los reglamentarios
+        #     promedio_reglamentarios = (
+        #         pd.to_numeric(
+        #             tabla["reglamentarios"],
+        #             errors="coerce"
+        #         )
+        #         .mean()
+        #     )
+
+        # # Redondear
+        # if pd.notna(promedio_reglamentarios):
+        #     promedio_reglamentarios = round(promedio_reglamentarios, 0)
+
+
+        # ============================================================
+        # PROMEDIO REGLAMENTARIOS
+        # ============================================================
+
+        # Buscar el primer registro donde TOTAL_LEIDOS_ACTUAL == 0
         filas_cero = tabla[tabla["total_leidos_actual"] == 0]
 
         if not filas_cero.empty:
@@ -528,35 +572,70 @@ div[data-testid="column"] .kpi-card {
             indice_cero = filas_cero.index[0]
 
             if indice_cero > 0:
-                # Promedio de reglamentarios desde el primer registro
-                # hasta el registro anterior al primer TOTAL_LEIDOS_ACTUAL = 0
-                promedio_reglamentarios = (
-                    pd.to_numeric(
-                        tabla.loc[:indice_cero - 1, "reglamentarios"],
-                        errors="coerce"
-                    )
-                    .mean()
-                )
+
+                # ====================================================
+                # PRIMER FILTRO:
+                # Desde el primer registro hasta el anterior
+                # al primer TOTAL_LEIDOS_ACTUAL == 0
+                # ====================================================
+                tabla_promedio = tabla.loc[:indice_cero - 1].copy()
 
             else:
-                # El primer registro ya tiene TOTAL_LEIDOS_ACTUAL = 0
-                promedio_reglamentarios = None
+                # El primer registro ya tiene TOTAL_LEIDOS_ACTUAL == 0
+                tabla_promedio = pd.DataFrame()
 
         else:
 
-            # Si nunca aparece TOTAL_LEIDOS_ACTUAL = 0,
-            # promedio de todos los reglamentarios
-            promedio_reglamentarios = (
-                pd.to_numeric(
-                    tabla["reglamentarios"],
-                    errors="coerce"
-                )
-                .mean()
-            )
+            # Si nunca aparece TOTAL_LEIDOS_ACTUAL == 0,
+            # tomar todos los registros
+            tabla_promedio = tabla.copy()
 
-        # Redondear
+
+        # ============================================================
+        # SEGUNDO FILTRO:
+        # Excluir registros donde TOTAL_PROGRAMADOS == 0
+        # ============================================================
+
+        tabla_promedio["total_programados"] = pd.to_numeric(
+            tabla_promedio["total_programados"],
+            errors="coerce"
+        )
+
+        tabla_promedio["reglamentarios"] = pd.to_numeric(
+            tabla_promedio["reglamentarios"],
+            errors="coerce"
+        )
+
+        tabla_promedio = tabla_promedio[
+            tabla_promedio["total_programados"] != 0
+        ]
+
+
+        # ============================================================
+        # PROMEDIO FINAL
+        # ============================================================
+
+        promedio_reglamentarios = tabla_promedio["reglamentarios"].mean()
+
         if pd.notna(promedio_reglamentarios):
             promedio_reglamentarios = round(promedio_reglamentarios, 0)
+        else:
+            promedio_reglamentarios = None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             
         tabla["f_lteor"] = pd.to_datetime(

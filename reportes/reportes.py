@@ -3020,6 +3020,134 @@ def generar_graf_ev_lect_pdf(
     mostrar_val=False
 ):
 
+    # ============================================================
+    # AGRUPAR POR FECHA COMPLETA
+    # ============================================================
+
+    df_evol = df.groupby(
+        df["f_lteor"].dt.date
+    ).agg({
+        "total_programados": "sum",
+        col_leidos: "sum"
+    }).reset_index()
+
+    df_evol = df_evol.rename(columns={
+        "f_lteor": "fecha"
+    })
+
+    # ============================================================
+    # ASEGURAR FECHA COMPLETA
+    # ============================================================
+
+    df_evol["fecha"] = pd.to_datetime(df_evol["fecha"])
+
+    # Día que se va a mostrar en el eje X
+    df_evol["dia"] = df_evol["fecha"].dt.strftime("%d")
+
+    # ============================================================
+    # DATOS PARA EL GRÁFICO
+    # ============================================================
+
+    df_graf = df_evol.rename(columns={
+        "total_programados": "Lecturas programadas",
+        col_leidos: titulo_col_leidos
+    })
+
+    # ============================================================
+    # GRÁFICO
+    # ============================================================
+
+    plt.figure(figsize=(12, 5))
+
+    plt.plot(
+        df_graf["fecha"],
+        df_graf["Lecturas programadas"],
+        marker="o",
+        linewidth=2,
+        color="#ff0a0a",
+        label="Lecturas programadas"
+    )
+
+    plt.plot(
+        df_graf["fecha"],
+        df_graf[titulo_col_leidos],
+        marker="o",
+        linewidth=2,
+        color="#1322ff",
+        label=titulo_col_leidos
+    )
+
+    # ============================================================
+    # MOSTRAR VALORES
+    # ============================================================
+
+    if mostrar_val:
+
+        for x, y in zip(
+            df_graf["fecha"],
+            df_graf["Lecturas programadas"]
+        ):
+            plt.text(
+                x,
+                y,
+                f"{y:,.0f}".replace(",", "."),
+                fontsize=8,
+                ha="center"
+            )
+
+        for x, y in zip(
+            df_graf["fecha"],
+            df_graf[titulo_col_leidos]
+        ):
+            plt.text(
+                x,
+                y,
+                f"{y:,.0f}".replace(",", "."),
+                fontsize=8,
+                ha="center"
+            )
+
+    # ============================================================
+    # EJE X
+    # ============================================================
+
+    plt.xticks(
+        df_graf["fecha"],
+        df_graf["dia"]
+    )
+
+    plt.title(titulo)
+    plt.xlabel("Día de lectura")
+    plt.ylabel("Cantidad de lecturas")
+
+    plt.legend()
+
+    plt.grid(
+        axis="y",
+        linestyle="--",
+        alpha=0.3
+    )
+
+    plt.tight_layout()
+
+    plt.savefig(
+        path_archivo,
+        dpi=300,
+        bbox_inches="tight"
+    )
+
+    plt.close()
+
+
+def generar_graf_ev_lect_pdf2(
+    df,
+    col_leidos,
+    path_archivo,
+    titulo="Evolución diaria de lecturas",
+    titulo_col_leidos="Lecturas realizadas",
+    mostrar_val=False
+):
+
     df_evol = df.groupby(df["f_lteor"].dt.date).agg({
         "total_programados": "sum",
         col_leidos: "sum"

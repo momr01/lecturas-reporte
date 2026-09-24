@@ -150,11 +150,17 @@ def page_reporte(
     # -----------------------------------
     # CONVERTIR FECHA
     # -----------------------------------
+    #df_base["f_lteor"] = pd.to_datetime(
+    #    df_base["f_lteor"],
+    #    format="%d/%m/%Y %H:%M:%S",
+    #    errors="coerce"
+    #)
+
     df_base["f_lteor"] = pd.to_datetime(
-        df_base["f_lteor"],
-        format="%d/%m/%Y %H:%M:%S",
-        errors="coerce"
-    )
+            df_base["f_lteor"],
+            dayfirst=True,
+            errors="coerce"
+        )
 
     # df_ftl = pd.read_csv(archivo_ftl, sep=";")
     anomalias_t2 = cargar_csv_universal(archivo_anomalias)

@@ -3246,14 +3246,214 @@ def format_number(column):
     
 
 
-
-
-
-
-
-
-
 def header_footer(canvas, doc):
+
+    canvas.saveState()
+
+    width, height = doc.pagesize
+
+    # =========================
+    # HEADER
+    # =========================
+
+    canvas.setFont("Helvetica-Bold", 11)
+    canvas.setFillColor(colors.HexColor("#1f4e78"))
+
+    canvas.drawString(
+        2 * cm,
+        height - 1.2 * cm,
+        "REPORTE DE CONTROL"
+    )
+
+    # =========================
+    # LOGO DERECHA
+    # =========================
+
+    from pathlib import Path
+    from PIL import Image
+
+    BASE_DIR = Path(__file__).resolve().parents[1]
+    logo_path = BASE_DIR / "img" / "edemsa_logo.png"
+
+    # Tamaño máximo del logo
+    max_width = 3 * cm
+    max_height = 1.5 * cm
+
+    # Obtener proporción original
+    with Image.open(logo_path) as img:
+        img_width, img_height = img.size
+
+    ratio = img_width / img_height
+
+    # Ajustar manteniendo proporción, sin deformar
+    if max_width / max_height < ratio:
+        logo_width = max_width
+        logo_height = max_width / ratio
+    else:
+        logo_height = max_height
+        logo_width = max_height * ratio
+
+    # Posición del logo
+    # Queda alineado a la derecha y completamente
+    # por encima de la línea separadora.
+    logo_x = width - 2 * cm - logo_width
+    logo_y = height - 1.65 * cm
+
+    canvas.drawImage(
+        str(logo_path),
+        logo_x,
+        logo_y,
+        width=logo_width,
+        height=logo_height,
+        mask="auto"
+    )
+
+    # =========================
+    # LÍNEA SEPARADORA
+    # =========================
+
+    canvas.setStrokeColor(colors.HexColor("#1f4e78"))
+    canvas.setLineWidth(1)
+
+    canvas.line(
+        2 * cm,
+        height - 1.8 * cm,
+        width - 2 * cm,
+        height - 1.8 * cm
+    )
+
+    # =========================
+    # FOOTER
+    # =========================
+
+    canvas.setFont("Helvetica", 9)
+    canvas.setFillColor(colors.grey)
+
+    # Izquierda
+    canvas.drawString(
+        2 * cm,
+        1 * cm,
+        "Confidencial - Uso interno"
+    )
+
+    # Derecha
+    page_number_text = f"Página {doc.page}"
+
+    canvas.drawRightString(
+        width - 2 * cm,
+        1 * cm,
+        page_number_text
+    )
+
+    canvas.restoreState()
+
+
+
+def header_footer3(canvas, doc):
+
+    canvas.saveState()
+
+    width, height = doc.pagesize
+
+    # =========================
+    # HEADER
+    # =========================
+
+    # Título
+    canvas.setFont("Helvetica-Bold", 11)
+    canvas.setFillColor(colors.HexColor("#1f4e78"))
+
+    canvas.drawString(
+        2 * cm,
+        height - 1.2 * cm,
+        "REPORTE DE CONTROL"
+    )
+
+    # =========================
+    # LOGO DERECHA
+    # =========================
+
+    from pathlib import Path
+    from PIL import Image
+
+    BASE_DIR = Path(__file__).resolve().parents[1]
+    logo_path = BASE_DIR / "img" / "edemsa_logo.png"
+
+    # Tamaño máximo permitido
+    max_width = 2 * cm
+    max_height = 1.2 * cm
+
+    # Mantener proporción original
+    with Image.open(logo_path) as img:
+        img_width, img_height = img.size
+
+    ratio = img_width / img_height
+
+    if max_width / max_height < ratio:
+        logo_width = max_width
+        logo_height = max_width / ratio
+    else:
+        logo_height = max_height
+        logo_width = max_height * ratio
+
+    # Posición:
+    # centrado verticalmente dentro del header
+    logo_x = width - 2 * cm - logo_width
+    logo_y = height - 1.45 * cm
+
+    canvas.drawImage(
+        str(logo_path),
+        logo_x,
+        logo_y,
+        width=logo_width,
+        height=logo_height,
+        mask="auto"
+    )
+
+    # =========================
+    # LÍNEA SEPARADORA
+    # =========================
+
+    canvas.setStrokeColor(colors.HexColor("#1f4e78"))
+    canvas.setLineWidth(1)
+
+    canvas.line(
+        2 * cm,
+        height - 1.8 * cm,
+        width - 2 * cm,
+        height - 1.8 * cm
+    )
+
+    # =========================
+    # FOOTER
+    # =========================
+
+    canvas.setFont("Helvetica", 9)
+    canvas.setFillColor(colors.grey)
+
+    # Izquierda
+    canvas.drawString(
+        2 * cm,
+        1 * cm,
+        "Confidencial - Uso interno"
+    )
+
+    # Derecha
+    page_number_text = f"Página {doc.page}"
+
+    canvas.drawRightString(
+        width - 2 * cm,
+        1 * cm,
+        page_number_text
+    )
+
+    canvas.restoreState()
+
+
+
+
+
+def header_footer2(canvas, doc):
     canvas.saveState()
 
     width, height = doc.pagesize
@@ -3277,16 +3477,47 @@ def header_footer(canvas, doc):
     # logo_path = os.path.join(BASE_DIR, "..", "img", "edemsa_logo.png")
     from pathlib import Path
 
-    BASE_DIR = Path(__file__).resolve().parents[1]  # sube 2 niveles desde reportes/
-    logo_path = BASE_DIR / "img" / "edemsa_logo.JPG"
+#     BASE_DIR = Path(__file__).resolve().parents[1]  # sube 2 niveles desde reportes/
+#     logo_path = BASE_DIR / "img" / "edemsa_logo.png"
+#     canvas.drawImage(
+#     logo_path,
+#     width - 4 * cm,
+#     height - 2.2*cm,
+#     width=2*cm,
+#     height=1.5*cm,
+#     mask='auto'
+# )
+    from PIL import Image
+
+    BASE_DIR = Path(__file__).resolve().parents[1]
+    logo_path = BASE_DIR / "img" / "edemsa_logo.png"
+
+    # Tamaño máximo permitido
+    max_width = 2 * cm
+    max_height = 1.5 * cm
+
+    # Proporción original
+    with Image.open(logo_path) as img:
+        img_width, img_height = img.size
+
+    ratio = img_width / img_height
+
+    # Ajustar dentro del rectángulo máximo sin deformar
+    if max_width / max_height < ratio:
+        logo_width = max_width
+        logo_height = max_width / ratio
+    else:
+        logo_height = max_height
+        logo_width = max_height * ratio
+
     canvas.drawImage(
-    logo_path,
-    width - 4 * cm,
-    height - 2.2*cm,
-    width=2*cm,
-    height=1.5*cm,
-    mask='auto'
-)
+        logo_path,
+        width - 4 * cm,
+        height - 2.2 * cm,
+        width=logo_width,
+        height=logo_height,
+        mask="auto"
+    )
      # =========================
     # LOGO DERECHA
     # =========================

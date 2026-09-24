@@ -220,7 +220,62 @@ div[data-testid="stButton"] > button * {
 """, unsafe_allow_html=True)
 
 
-st.title("📊 Dashboard de Lecturas - Reporte")
+# from pathlib import Path
+# import streamlit as st
+
+# BASE_DIR = Path(__file__).resolve().parents[1]
+# logo_path = BASE_DIR / "img" / "logo.png"
+
+# st.markdown(
+#     f"""
+#     <div style="display: flex; align-items: center; gap: 12px;">
+#         <img src="data:image/png;base64,{__import__('base64').b64encode(logo_path.read_bytes()).decode()}"
+#              style="width: 45px; height: auto;">
+#         <h1 style="margin: 0;">Dashboard de Lecturas - Reporte</h1>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+from pathlib import Path
+import base64
+import streamlit as st
+
+# app.py está dentro de app-only-report
+# BASE_DIR = Path(__file__).resolve().parent.parent
+
+# logo_path = BASE_DIR / "img" / "logo.png"
+
+
+BASE_DIR = Path(__file__).resolve().parent
+logo_path = BASE_DIR / "img" / "logo.png"
+
+logo_base64 = base64.b64encode(
+    logo_path.read_bytes()
+).decode()
+
+st.markdown(
+    f"""
+    <div style="
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    ">
+        <img 
+            src="data:image/png;base64,{logo_base64}"
+            style="width: 100px; height: auto;"
+        >
+        <h1 style="margin: 0;">
+            Dashboard de Lecturas - Reporte
+        </h1>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# st.title("📊 Dashboard de Lecturas - Reporte")
 
 st.space("large")
 page_reporte()
